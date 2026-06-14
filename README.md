@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-SoundCluster maps songs into a 3D emotional space. The app searches track metadata through iTunes, optionally fetches lyrics through LRCLIB, analyzes the song with Gemini, and renders the resulting 5D emotion vector with React Three Fiber.
+SoundCluster maps songs into a 3D emotional space. The app searches track metadata through iTunes, fetches lyrics through LRCLIB when available, analyzes the song with Gemini, stores reusable analysis/share data in MongoDB Atlas, and renders the resulting 5D emotion vector with React Three Fiber.
 
 ## Stack
 
@@ -10,7 +10,8 @@ SoundCluster maps songs into a 3D emotional space. The app searches track metada
 - Backend: Express, TypeScript, Server-Sent Events
 - LLM: Google `@google/genai`
 - External APIs: iTunes Search API, LRCLIB API
-- Storage: MySQL
+- Storage: MongoDB Atlas
+- Deployment: Vercel frontend, Render backend, MongoDB Atlas database
 - Tests: TypeScript build + `node:test`
 
 ## Current Features
@@ -18,15 +19,15 @@ SoundCluster maps songs into a 3D emotional space. The app searches track metada
 - iTunes track search by title and optional artist
 - LRCLIB lyrics lookup with fallback to title/artist-only analysis
 - Gemini 5D emotion analysis
-- MySQL-backed analysis cache
+- MongoDB-backed analysis cache
 - SSE progress events for analysis state
 - R3F 3D music space rendering
 - Axis on/off projection controls for five emotion dimensions
 - Hover metadata popup with album image, title, artist, and emotion values
 - Selected track HUD with emotion detail panel and remove action
 - Nearest/farthest relation calculation and visual connection lines
-- `nanoid` share URLs backed by MySQL snapshots
-- Response debug panel with opacity control
+- `nanoid` share URLs backed by MongoDB snapshot storage
+- Duplicate share snapshot detection through stable snapshot hashes
 
 ## Run
 
@@ -39,7 +40,8 @@ corepack pnpm dev
 Backend:
 
 ```powershell
-.\node_modules\.bin\tsx.cmd server/src/app.ts
+corepack pnpm run server:build
+corepack pnpm run server:start
 ```
 
 Default URLs:
@@ -49,6 +51,18 @@ Frontend: http://localhost:5173
 Backend:  http://127.0.0.1:3001
 Health:   http://127.0.0.1:3001/api/health
 ```
+
+## Environment
+
+Required backend environment variables:
+
+```text
+GEMINI_API_KEY=
+MONGODB_URI=
+MONGODB_DB_NAME=
+```
+
+The frontend should call the deployed Render backend in production and the local backend during local development.
 
 ## Validation
 

@@ -2,21 +2,21 @@
 
 ## Purpose
 
-SoundCluster는 사용자가 검색한 곡을 감정 벡터로 분석하고, 여러 곡 사이의 감정적 거리를 3D 공간에서 비교하게 하는 음악 탐색 도구다.
+SoundCluster is a music exploration tool that analyzes searched songs as emotion vectors and compares their emotional distance in a 3D space.
 
 ## Current Product Scope
 
-- 곡명 또는 아티스트 기반 iTunes 검색
-- 검색 결과에서 곡 메타데이터 선택
-- LRCLIB 기반 가사 조회
-- Gemini 기반 5차원 감정 분석
-- MySQL 기반 분석 결과 캐싱
-- R3F 기반 3D 감정 공간 렌더링
-- 감정 축 on/off 기반 재투영
-- 선택 곡 기준 nearest/farthest 관계 계산
-- hover 또는 선택 상태에서 곡 정보와 감정값 표시
-- nanoid 기반 공유 URL 생성
-- 공유 URL을 통한 클러스터 복원
+- iTunes search by song title or artist.
+- Track metadata selection from search results.
+- LRCLIB lyrics lookup.
+- Gemini-based 5D emotion analysis.
+- MongoDB Atlas analysis result caching.
+- R3F-based 3D emotion-space rendering.
+- Emotion axis on/off projection.
+- Selected-track nearest/farthest relation calculation.
+- Song metadata and emotion values in hover or selected states.
+- `nanoid` share URL creation.
+- Cluster restoration through shared URLs.
 
 ## User Flow
 
@@ -79,18 +79,17 @@ Users only toggle whether each axis participates in the projection.
 - Selected, nearest, and farthest tracks remain visually emphasized.
 - Nearest relation uses a solid line.
 - Farthest relation uses a dashed line.
-- Debug response panel is development-only and can have its opacity adjusted.
 
 ## Visual Direction
 
 - Dark space background.
-- R3F stars rotate with OrbitControls.
+- R3F stars rotate only through OrbitControls interaction.
 - No CSS star grid pattern.
 - Track nodes are small glowing points, not large planets.
 - UI panels use dark glass surfaces.
 - The right panel is named `Emotions`.
 - The left panel is named `Search Results`.
-- The 3D scene shows sparse XYZ axis lines without text labels.
+- The 3D scene shows sparse dotted 3D axis lines without text labels.
 
 ## Out of Scope For Current Slice
 

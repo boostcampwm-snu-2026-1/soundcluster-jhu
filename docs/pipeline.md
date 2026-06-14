@@ -3,25 +3,21 @@
 ## Search And Analysis Pipeline
 
 ```text
-[Client]                         [Express Server]                 [MySQL DB]                  [External API]
+[Client]                         [Express Server]                 [MongoDB Atlas]             [External API]
    |                                      |                              |                              |
    |--- 1. Search request -------------->|                              |                              |
    |    GET /api/itunes/search           |                              |                              |
    |                                      |--- 2. iTunes search ---------------------------------------------->|
    |                                      |                              |                         iTunes Search API
    |                                      |<-- 3. Track metadata ---------------------------------------------|
-   |                                      |                              |                              |
    |<-- 4. Search results ---------------|                              |                              |
-   |    title, artist, albumImageUrl      |                              |                              |
    |                                      |                              |                              |
    |--- 5. Lyrics request -------------->|                              |                              |
    |    GET /api/lyrics/search           |                              |                              |
    |                                      |--- 6. Lyrics lookup ---------------------------------------------->|
    |                                      |                              |                         LRCLIB API
    |                                      |<-- 7. Lyrics or no match ------------------------------------------|
-   |                                      |                              |                              |
    |<-- 8. Lyrics response --------------|                              |                              |
-   |    lyrics or fallback info           |                              |                              |
    |                                      |                              |                              |
    |--- 9. Analysis SSE connect -------->|                              |                              |
    |    GET /api/analyze/stream           |                              |                              |
@@ -71,7 +67,7 @@ Canvas updates with selected node, relation lines, and popups
 ## Share Pipeline
 
 ```text
-[Client]                         [Express Server]                 [MySQL DB]
+[Client]                         [Express Server]                 [MongoDB Atlas]
    |                                      |                              |
    |--- 1. Create share snapshot ------->|                              |
    |    POST /api/share-snapshots        |                              |

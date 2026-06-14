@@ -7,11 +7,11 @@ This document defines how AI agents should work in the SoundCluster repository.
 - Product: SoundCluster
 - Frontend: React, TypeScript, Vite, React Three Fiber, Three.js, CSS Modules
 - Backend: Express, TypeScript, SSE
-- Storage: MySQL
+- Storage: MongoDB Atlas
 - LLM: Gemini through `@google/genai`
 - Metadata: iTunes Search API
 - Lyrics: LRCLIB API
-- Share URLs: `nanoid` ids stored in MySQL
+- Share URLs: `nanoid` ids stored in MongoDB Atlas
 
 ## Work Rules
 
@@ -45,7 +45,7 @@ This document defines how AI agents should work in the SoundCluster repository.
 - Express route bindings belong in `server/src/routes/`.
 - Request orchestration belongs in `server/src/controllers/`.
 - Gemini and analysis flow belongs in `server/src/services/`.
-- MySQL access belongs in `server/src/repositories/`.
+- MongoDB access belongs in `server/src/repositories/`.
 - Shared route constants, payload types, and pure validators belong in `shared/`.
 
 ## Current API Facts

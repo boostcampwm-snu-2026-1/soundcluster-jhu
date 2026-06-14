@@ -13,13 +13,11 @@
 ```text
 Top left       SoundCluster brand
 Top center     Search input + Search button
-Top right      Reset button
+Top right      Share button + Reset button
 Left panel     Search Results
 Center         3D emotion space
 Right panel    Emotions axis toggles
 Bottom center  Selected track HUD
-Bottom left    Response debug panel
-Bottom right   Share button
 ```
 
 ## Search Results Panel
@@ -99,16 +97,9 @@ Rules:
 - Includes a remove button.
 - Removing the selected track clears the selected-track emotion panel state.
 
-## Debug Panel
-
-- The response panel is a development aid.
-- It shows LRCLIB and Gemini debug output.
-- It includes an opacity slider.
-- It can be hidden or removed for production.
-
 ## Share UI
 
-- Share button opens share modal.
+- Top-right share button opens share modal.
 - The modal requests `/api/share-snapshots`.
 - The generated URL uses `?share=<shareId>`.
 

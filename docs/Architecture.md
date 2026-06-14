@@ -1,6 +1,6 @@
 # SoundCluster Architecture
 
-SoundCluster는 곡 검색 결과와 가사 정보를 기반으로 Gemini가 5차원 감정 벡터를 추출하고, React Three Fiber가 이를 3D 공간에 배치하는 음악 감정 클러스터링 앱이다.
+SoundCluster turns searched songs into Gemini-generated 5D emotion vectors and renders those vectors as a 3D music constellation with React Three Fiber.
 
 ## Directory Map
 
@@ -20,12 +20,11 @@ soundcluster-jhu/
 |-- server/                     # Express backend
 |   `-- src/
 |       |-- app.ts              # Express app, CORS, route mounting, health route
-|       |-- config/             # env, DB, Gemini, iTunes, LRCLIB clients
+|       |-- config/             # env, MongoDB, Gemini, iTunes, LRCLIB clients
 |       |-- controllers/        # request orchestration, SSE response handling
 |       |-- routes/             # route bindings
 |       |-- services/           # analysis pipeline and Gemini integration
-|       |-- repositories/       # MySQL persistence for cache and snapshots
-|       |-- database/           # schema bootstrap
+|       |-- repositories/       # MongoDB persistence for cache and snapshots
 |       `-- validation/         # LLM response validation
 |
 |-- shared/                     # contracts shared by FE and BE
@@ -49,6 +48,7 @@ soundcluster-jhu/
 - Track emotion values are not user-editable; users only toggle which axes are used for projection.
 - `StarsCanvas.tsx` projects 5D emotion vectors into 3D coordinates and renders:
   - background starfield
+  - dotted 3D axis reference lines
   - track nodes
   - selected track state
   - nearest and farthest relation lines
@@ -57,13 +57,13 @@ soundcluster-jhu/
 ### Backend
 
 - Express exposes API routes under `/api/*`.
-- CORS is currently open for local frontend development.
+- CORS is configured for local and deployed frontend access.
 - iTunes and LRCLIB are called only from the backend.
 - Gemini is called only from the backend.
-- MySQL stores:
+- MongoDB Atlas stores:
   - analysis cache keyed by normalized title and artist
   - share snapshots keyed by `nanoid`
-  - snapshot hash to reuse existing share ids for identical data
+  - snapshot hashes to reuse existing share ids for identical data
 
 ### Shared
 
@@ -98,6 +98,30 @@ ClusterShareSnapshot
 `-- tracks[]
 ```
 
+## Persistence
+
+```text
+analysis_cache
+|-- cacheKey
+|-- title
+|-- artist
+|-- analysis
+|-- emotions
+|-- createdAt
+`-- updatedAt
+```
+
+```text
+share_snapshots
+|-- shareId
+|-- snapshotHash
+|-- snapshot
+|-- createdAt
+`-- updatedAt
+```
+
+MongoDB indexes are created from `server/src/config/db.ts`.
+
 ## Placement Rules
 
 - R3F or Three.js rendering code goes under `client/src/canvas/`.
@@ -106,7 +130,7 @@ ClusterShareSnapshot
 - Backend route bindings go under `server/src/routes/`.
 - Request orchestration goes under `server/src/controllers/`.
 - Gemini/cache/business flow goes under `server/src/services/`.
-- MySQL persistence goes under `server/src/repositories/`.
+- MongoDB persistence goes under `server/src/repositories/`.
 - Cross-layer constants, payload types, and pure validators go under `shared/`.
 
 ## Current Constraints
@@ -114,5 +138,5 @@ ClusterShareSnapshot
 - The app uses iTunes Search API, not Spotify.
 - Lyrics are optional. LRCLIB failure does not block Gemini analysis.
 - Gemini response values must remain in the `0.0` to `1.0` range.
-- Share URLs store only the compact snapshot id in the URL; the snapshot body is stored in MySQL.
+- Share URLs store only the compact snapshot id in the URL; the snapshot body is stored in MongoDB Atlas.
 - Camera POV is restored from snapshot defaults or stored snapshot values, while projection is recomputed on the frontend.

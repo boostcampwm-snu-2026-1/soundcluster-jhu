@@ -26,17 +26,17 @@ Express와 TypeScript를 개발 의존성으로 설치하고, 서버를 켰을 �
 - [x] `GET /api/health` 엔드포인트 테스트 (브라우저 접속 시 `{"status": "ok"}` 반환 확인)
 
   </details>
-- [x] #4 [Env] MySQL 로컬 설치 및 커넥션 풀(Connection Pool) 연결
+- [x] #4 [Env] MongoDB Atlas 연결 및 DB 상태 검증
   <details>
   <summary>🔍 이슈 내용 보기</summary>
 
   ## 🎯 작업 개요
-로컬 컴퓨터에 데이터베이스 엔진을 설치하고, Express 서버가 구동될 때 DB와 끊어지지 않고 안전하게 통신할 수 있도록 커넥션 풀 설정을 완료합니다.
+MongoDB Atlas 클러스터를 준비하고, Express 서버가 구동될 때 DB와 끊어지지 않고 안전하게 통신할 수 있도록 연결 설정을 완료합니다.
 
 ## 📋 세부 작업 태스크 (Todo)
-- [x] MySQL Community Server 로컬 설치 및 root 비밀번호 세팅
+- [x] MongoDB Atlas cluster, database user, connection URI 세팅
 - [x] `dotenv` 패키지 설치 및 보안을 위한 `server/.env` 파일 분리
-- [x] `mysql2` 라이브러리 설치 및 `server/src/config/db.ts` 커넥션 풀 모듈 구현
+- [x] `mongodb` 라이브러리 설치 및 `server/src/config/db.ts` MongoClient 모듈 구현
 - [x] 서버 구동 시 DB 연결 성공 메시지(`Database Connected!`) 로그 출력 검증
 
   </details>
@@ -107,11 +107,11 @@ Gemini의 AI 분석 작업이 진행되는 동안 클라이언트가 블로킹(�
   <details>
   <summary>🔍 이슈 내용 보기</summary>
   ## 🎯 작업 개요
-동일한 곡에 대한 중복 분석 요청 시, 비싼 Gemini API를 다시 호출하지 않고 MySQL DB에 적재된 기존 5차원 감성 벡터를 즉시 반환하는 캐싱 로직을 구현합니다.
+동일한 곡에 대한 중복 분석 요청 시, 비싼 Gemini API를 다시 호출하지 않고 MongoDB Atlas DB에 적재된 기존 5차원 감성 벡터를 즉시 반환하는 캐싱 로직을 구현합니다.
 ## 📋 세부 작업 태스크 (Todo)
 - [x] 곡명(Title)과 아티스트(Artist) 기준의 고유 해시값 또는 복합 키 조회 쿼리 구현
 - [x] `IF EXISTS` 조건문을 활용해 캐시 데이터가 있으면 즉시 SSE로 데이터 쏘고 연결 종료(`close`)
-- [x] 캐시 미스(Cache Miss) 발생 시에만 Gemini 파이프라인을 트리거하고 연산 결과를 MySQL에 자동 `INSERT`
+- [x] 캐시 미스(Cache Miss) 발생 시에만 Gemini 파이프라인을 트리거하고 연산 결과를 MongoDB Atlas에 저장
 
   </details>
 - [x] #11 [Feat] EventSource 기반 클라이언트 실시간 데이터 수신 및 상태 관리
@@ -163,11 +163,11 @@ Gemini가 반환한 벡터 수치(0.0 ~ 1.0)를 3D 우주 공간 상의 가시�
   <summary>작업 내용 보기</summary>
 
   ## 작업 개요
-  기존 공유 URL은 snapshot 전체를 query string에 담아 링크가 길어졌습니다. `nanoid`로 짧은 share id를 생성하고, MySQL에 snapshot JSON을 저장한 뒤 URL에는 `?share=<id>`만 담아 공유 링크 길이를 줄입니다.
+  기존 공유 URL은 snapshot 전체를 query string에 담아 링크가 길어졌습니다. `nanoid`로 짧은 share id를 생성하고, MongoDB Atlas에 snapshot JSON을 저장한 뒤 URL에는 `?share=<id>`만 담아 공유 링크 길이를 줄입니다.
 
 ## 세부 작업 리스트
 - [x] `nanoid` 패키지 도입
-- [x] `share_snapshots` MySQL 테이블 생성 스키마 추가
+- [x] `share_snapshots` MongoDB collection 및 index bootstrap 추가
 - [x] `POST /api/share-snapshots`에서 camera/POV를 제외한 tracks data JSON 저장 및 share id 반환
 - [x] `snapshot_hash` unique index로 같은 tracks data는 기존 nanoid 재사용
 - [x] `GET /api/share-snapshots/:shareId`에서 기본 camera POV로 snapshot 재구성
@@ -340,7 +340,7 @@ R3F 캔버스 위에 검색 입력, 분석 버튼, 진행률, 5축 감성 축 �
 - [x] 동일 곡 분석 이력 조회 API 초안 구현
 
 ## ✅ 검증 방법
-- [x] MySQL에서 테이블 schema 확인
+- [x] MongoDB Atlas에서 collection/index 확인
 - [x] 같은 곡 분석 후 벡터 컬럼과 JSON 값이 일치하는지 확인
 
   </details>
