@@ -14,6 +14,10 @@ SoundCluster maps songs into a 3D emotional space. The app searches track metada
 - Deployment: Vercel frontend, Render backend, MongoDB Atlas database
 - Tests: TypeScript build + `node:test`
 
+## Deployment
+
+- Live app: https://soundcluster-jhu.vercel.app/
+
 ## Current Features
 
 - iTunes track search by title and optional artist
