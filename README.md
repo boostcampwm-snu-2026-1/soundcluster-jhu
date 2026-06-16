@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-<img width="2880" height="1800" alt="soundcluster" src="https://github.com/user-attachments/assets/be3dab74-ad8c-4a1e-adf1-703fea7f78ad" />
+<img width="2880" height="1800" alt="SoundCluster" src="https://github.com/user-attachments/assets/42de9f44-0295-4154-b76a-9af8815a0fe6" />
 
 SoundCluster maps songs into a 3D emotional space. The app searches track metadata through iTunes, fetches lyrics through LRCLIB when available, analyzes the song with Gemini, stores reusable analysis/share data in MongoDB Atlas, and renders the resulting 5D emotion vector with React Three Fiber.
 
